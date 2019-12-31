@@ -8,9 +8,9 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 class FetchRepositoryUsecaseImpl @Inject constructor(
-    val apiRepository: ApiRepository,
-    val ioScheduler: Scheduler,
-    val uiScheduler: Scheduler
+    private val apiRepository: ApiRepository,
+    private val ioScheduler: Scheduler,
+    private val uiScheduler: Scheduler
 ) : FetchRepositoryUsecase {
     override fun fetchGitRepositories(): Single<List<Repository>> {
         return apiRepository.getRepositories()

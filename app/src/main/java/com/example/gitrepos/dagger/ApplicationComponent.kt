@@ -12,7 +12,9 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [AndroidInjectionModule::class, BindingModule::class, RetrofitGitService::class, SchedulerModule::class, UsecaseModule::class, RepositoryModule::class]
+    modules = [AndroidInjectionModule::class, BindingModule::class, RetrofitGitService::class, SchedulerModule::class, UsecaseModule::class, RepositoryModule::class,
+        ViewModelModule::class
+    ]
 
 )
 interface ApplicationComponent : AndroidInjector<GitApp> {

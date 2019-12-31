@@ -3,9 +3,13 @@ package com.example.gitrepos.view
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.domain.entity.Repository
 import com.example.domain.usecases.FetchRepositoryUsecase
 import com.example.gitrepos.R
+import com.example.gitrepos.view.viewmodels.GitRepositoryViewModel
+import com.example.gitrepos.view.viewmodels.ViewModelFactory
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -23,21 +27,17 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
 
     @Inject
-    lateinit var fetchRepositoryUsecase: FetchRepositoryUsecase
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fetchRepositoryUsecase.fetchGitRepositories().subscribe({ onSuccrss(it) }, { onError(it) })
+        val vm = ViewModelProviders.of(this,viewModelFactory).get(GitRepositoryViewModel::class.java)
+        vm.getRepositories()
+
     }
 
-    private fun onError(throwable: Throwable?) {
-        Log.w("Failuar", throwable?.message ?: "message is empty")
-    }
 
-    private fun onSuccrss(list: List<Repository>?) {
-        Log.w("Success", "size : " + list?.size)
-    }
 }
