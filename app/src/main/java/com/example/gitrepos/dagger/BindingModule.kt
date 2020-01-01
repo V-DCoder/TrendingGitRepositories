@@ -1,4 +1,4 @@
-package com.example.gitrepos.view.dagger
+package com.example.gitrepos.dagger
 
 
 import com.example.gitrepos.view.MainActivity

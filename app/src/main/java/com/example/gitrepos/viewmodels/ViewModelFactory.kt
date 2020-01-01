@@ -1,4 +1,4 @@
-package com.example.gitrepos.view.viewmodels
+package com.example.gitrepos.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

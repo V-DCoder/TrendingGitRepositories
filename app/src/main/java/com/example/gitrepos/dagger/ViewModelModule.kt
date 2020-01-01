@@ -2,9 +2,9 @@ package com.example.gitrepos.dagger
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.gitrepos.view.viewmodels.GitRepositoryViewModel
-import com.example.gitrepos.view.viewmodels.ViewModelFactory
-import com.example.gitrepos.view.viewmodels.ViewModelKey
+import com.example.gitrepos.viewmodels.GitRepositoryViewModel
+import com.example.gitrepos.viewmodels.ViewModelFactory
+import com.example.gitrepos.viewmodels.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

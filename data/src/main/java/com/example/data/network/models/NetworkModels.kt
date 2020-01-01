@@ -13,7 +13,7 @@ data class Repository(
     @SerializedName("url") val url: String,
     @SerializedName("description") val description: String,
     @SerializedName("language") val language: String?,
-    @SerializedName("languageColor") val languageColor: String,
+    @SerializedName("languageColor") val languageColor: String?,
     @SerializedName("stars") val stars: Int,
     @SerializedName("forks") val forks: Int,
     @SerializedName("currentPeriodStars") val currentPeriodStars: Int,

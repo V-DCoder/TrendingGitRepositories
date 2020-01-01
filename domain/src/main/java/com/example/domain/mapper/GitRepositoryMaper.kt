@@ -13,7 +13,8 @@ class GitRepositoryMapper {
                     it.name,
                     it.avatar,
                     it.description,
-                    it.language?:"NA",
+                    it.language ?: "NA",
+                    it.languageColor,
                     it.stars,
                     it.forks
                 )
