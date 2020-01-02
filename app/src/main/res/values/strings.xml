@@ -3,4 +3,7 @@
     <string name="error_message">Something went wrong..</string>
     <string name="error_reason">An alien is probably blocking your signal.</string>
     <string name="retry">Retry</string>
+    <string name="trending">Trending</string>
+    <string name="sort_by_stars">Sort by stars</string>
+    <string name="sort_by_name">Sort by name</string>
 </resources>

@@ -1,8 +1,6 @@
 package com.example.gitrepos.view
 
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -20,7 +18,6 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.data_view.*
 import kotlinx.android.synthetic.main.loading_view.*
-
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
@@ -36,18 +33,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         return androidInjector
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-
-        Log.w("onconfigChange", " orientation " + newConfig.orientation)
-        super.onConfigurationChanged(newConfig)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.w("onconfigChange", " onCreate ")
+
         gitRepositoryViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(GitRepositoryViewModel::class.java)
         gitRepositoryViewModel.fetchRepositories()
@@ -59,7 +50,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
     private fun init() {
         initObservers()
         inView()
+        initActionBar()
 
+    }
+
+    private fun initActionBar() {
+        setSupportActionBar(toobar)
     }
 
     private fun inView() {
