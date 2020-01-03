@@ -1,6 +1,6 @@
 package com.example.gitrepos.dagger
 
-import com.example.data.network.repository.ApiRepository
+import com.example.data.DataManager
 import com.example.domain.usecases.FetchRepositoryUsecase
 import com.example.domain.usecases.FetchRepositoryUsecaseImpl
 import dagger.Module
@@ -14,9 +14,12 @@ class UsecaseModule {
 
     @Provides
     fun providesFetchRepositoryUsecase(
-        apiRepository: ApiRepository, @Named("ioScheduler") ioScheduler: Scheduler,
+        datamanager: DataManager, threshold: Long, @Named("ioScheduler") ioScheduler: Scheduler,
         @Named("mainThreadScheduler") mainThreadScheduler: Scheduler
     ): FetchRepositoryUsecase {
-        return FetchRepositoryUsecaseImpl(apiRepository, ioScheduler, mainThreadScheduler)
+        return FetchRepositoryUsecaseImpl(datamanager, threshold, ioScheduler, mainThreadScheduler)
     }
+
+    @Provides
+    fun provideCacheExpiryThreshold(): Long = 1000 * 60 * 2
 }

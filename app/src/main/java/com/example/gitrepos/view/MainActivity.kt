@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
         gitRepositoryViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(GitRepositoryViewModel::class.java)
-        gitRepositoryViewModel.fetchRepositories()
-
         init()
         gitRepositoryViewModel.fetchRepositories()
     }
