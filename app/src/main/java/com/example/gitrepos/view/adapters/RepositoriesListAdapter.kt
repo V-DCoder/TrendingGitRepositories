@@ -2,15 +2,21 @@ package com.example.gitrepos.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.entity.Repository
 import com.example.gitrepos.R
-import com.example.gitrepos.view.utils.RoundCornersTransform
+import com.example.gitrepos.models.Repository
+import com.example.gitrepos.view.utils.CirculImageView
+import com.example.gitrepos.view.utils.CircularImageTransform
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.repositories_list_item.view.*
 
-class RepositoriesListAdapter() :
+class RepositoriesListAdapter :
     RecyclerView.Adapter<RepositoriesListAdapter.RepositoriesListViewHolder>() {
 
     var repositoryList: List<Repository>? = null
@@ -20,18 +26,28 @@ class RepositoriesListAdapter() :
         notifyDataSetChanged()
     }
 
-    class RepositoriesListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    inner class RepositoriesListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
 
-        val description = this.view.description
-        val author = this.view.author
-        val name = this.view.name
-        val fork = this.view.fork
-        val language = this.view.language
-        val stars = this.view.stars
-        val avatar = this.view.avatar
-        val languageColor = this.view.languageColour
+        val description: TextView = this.view.description
+        val author: TextView = this.view.author
+        val name: TextView = this.view.name
+        val fork: TextView = this.view.fork
+        val language: TextView = this.view.language
+        val stars: TextView = this.view.stars
+        val avatar: ImageView = this.view.avatar
+        val languageColor: CirculImageView = this.view.languageColour
+        val detailsLayout: LinearLayout = this.view.detailsLayout
 
+        init {
+            view.setOnClickListener { onItemClick() }
+        }
+
+        private fun onItemClick() {
+            repositoryList?.forEach { it.isSelected = false }
+            repositoryList?.get(adapterPosition)?.isSelected = true
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoriesListViewHolder {
@@ -57,8 +73,15 @@ class RepositoriesListAdapter() :
             fork.text = repo?.forks.toString()
             language.text = repo?.language
             Picasso.get().load(repo?.avatar)
-                .transform(RoundCornersTransform()).into(holder.avatar)
+                .transform(CircularImageTransform()).into(holder.avatar)
             languageColor.setCustomColor(repo?.languageColor)
+            if (repo?.isSelected == true) {
+                detailsLayout.visibility = VISIBLE
+                description.visibility = VISIBLE
+            } else {
+                detailsLayout.visibility = GONE
+                description.visibility = GONE
+            }
 
         }
 

@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/moreOptions"
-        android:icon="@drawable/more_black_24"
-        android:title="">
-        <menu>
-            <item
-                android:id="@+id/sortByStars"
-                android:title="@string/sort_by_stars" />
-            <item
-                android:id="@+id/sortByName"
-                android:title="@string/sort_by_name" />
 
-        </menu>
-    </item>
+        android:id="@+id/sortByStars"
+        android:title="@string/sort_by_stars" />
+    <item
+        android:id="@+id/sortByName"
+        android:title="@string/sort_by_name" />
+
+
 </menu>

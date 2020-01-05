@@ -5,11 +5,11 @@ import android.graphics.*
 import com.squareup.picasso.Transformation
 
 
-class RoundCornersTransform : Transformation {
+class CircularImageTransform : Transformation {
 
 
     override fun key(): String {
-        return "roundCorners"
+        return "CircularImageTransform"
     }
 
     override fun transform(source: Bitmap?): Bitmap {
@@ -27,14 +27,9 @@ class RoundCornersTransform : Transformation {
 
         val r: Float = (source.width / 2).toFloat()
         val rect = Rect(0, 0, source.width, source.height)
-        val rectF = RectF(rect)
-        val roundPx = 8f
         paint.color = color
-
-
+        
         canvas.drawARGB(0, 0, 0, 0)
-
-//        canvas.drawRoundRect(rectF, roundPx, roundPx, paint)
         canvas.drawCircle(r, r, r, paint)
 
 

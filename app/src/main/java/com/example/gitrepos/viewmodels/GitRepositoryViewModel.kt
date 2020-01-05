@@ -3,9 +3,11 @@ package com.example.gitrepos.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.entity.Repository
 import com.example.domain.usecases.FetchRepositoryUsecase
+import com.example.gitrepos.models.DomainViewMapper
+import com.example.gitrepos.models.Repository
 import io.reactivex.disposables.Disposable
+import java.util.*
 import javax.inject.Inject
 
 class GitRepositoryViewModel @Inject constructor(private val fetchRepositoryUsecase: FetchRepositoryUsecase) :
@@ -22,9 +24,10 @@ class GitRepositoryViewModel @Inject constructor(private val fetchRepositoryUsec
     fun getRepositoryListLiveData(): LiveData<List<Repository>> = repositoryListLiveData
 
     fun fetchRepositories() {
-        if(repositoryListLiveData.value==null) {
+        if (repositoryListLiveData.value == null) {
             showLoading()
             fetchRepositoryUsecaseDisposable = fetchRepositoryUsecase.fetchGitRepositories()
+                .map { DomainViewMapper().mapRepositories(it) }
                 .subscribe({ onSuccess(it) }, { onError(it) })
         }
     }
@@ -65,8 +68,42 @@ class GitRepositoryViewModel @Inject constructor(private val fetchRepositoryUsec
 
     }
 
+
     override fun onCleared() {
         super.onCleared()
         fetchRepositoryUsecaseDisposable?.dispose()
+    }
+
+    fun sortByName() {
+        val data = repositoryListLiveData.value
+        data?.run {
+            Collections.sort(data, NameComparator())
+            repositoryListLiveData.postValue(data)
+        }
+
+    }
+
+    fun sortByStars() {
+        val data = repositoryListLiveData.value
+        data?.run {
+            Collections.sort(data, StarComparator())
+            repositoryListLiveData.postValue(data)
+        }
+    }
+
+    class NameComparator : Comparator<Repository> {
+
+        override fun compare(o1: Repository?, o2: Repository?): Int {
+
+            return o1?.name?.compareTo(o2?.name ?: "") ?: 0
+        }
+    }
+
+    class StarComparator : Comparator<Repository> {
+
+        override fun compare(o1: Repository?, o2: Repository?): Int {
+
+            return  o1?.stars?.compareTo(o2?.stars ?: 0) ?: 0
+        }
     }
 }

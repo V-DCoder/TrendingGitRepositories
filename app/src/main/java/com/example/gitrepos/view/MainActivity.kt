@@ -1,12 +1,18 @@
 package com.example.gitrepos.view
 
+
+import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.domain.entity.Repository
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.gitrepos.R
+import com.example.gitrepos.models.Repository
 import com.example.gitrepos.view.adapters.LoadingViewAdapter
 import com.example.gitrepos.view.adapters.RepositoriesListAdapter
 import com.example.gitrepos.viewmodels.GitRepositoryViewModel
@@ -17,11 +23,14 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.data_view.*
+import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.loading_view.*
+import kotlinx.android.synthetic.main.more_option_popup.view.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
+    private lateinit var popupMenu: PopupWindow
     private lateinit var repositoryListAdapter: RepositoriesListAdapter
     private lateinit var gitRepositoryViewModel: GitRepositoryViewModel
     @Inject
@@ -37,8 +46,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
         gitRepositoryViewModel =
             ViewModelProviders.of(this, viewModelFactory).get(GitRepositoryViewModel::class.java)
         init()
@@ -47,7 +54,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
 
     private fun init() {
         initObservers()
-        inView()
+        initView()
         initActionBar()
 
     }
@@ -56,12 +63,50 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
         setSupportActionBar(toobar)
     }
 
-    private fun inView() {
+    private fun initView() {
         rcvLoading.adapter = LoadingViewAdapter()
         repositoryListAdapter = RepositoriesListAdapter()
         rcvRepositoryList.adapter = repositoryListAdapter
+        val divider = DividerItemDecoration(this, LinearLayout.VERTICAL)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            divider.setDrawable(resources.getDrawable(R.drawable.divider_drawable,theme))
+        } else {
+            divider.setDrawable(resources.getDrawable(R.drawable.divider_drawable))
+        }
+
+        rcvRepositoryList.addItemDecoration(divider)
+        popupMenu = initPopupWindow()
+        retryButton.setOnClickListener { gitRepositoryViewModel.fetchRepositories() }
+        moreOptions.setOnClickListener { showMoreOptionPopup() }
 
 
+    }
+
+    private fun showMoreOptionPopup() {
+        if (popupMenu.isShowing) {
+            popupMenu.dismiss()
+        } else {
+            popupMenu.showAsDropDown(moreOptions)
+        }
+    }
+
+    private fun initPopupWindow(): PopupWindow {
+        val popupMenu = PopupWindow(this)
+        val view = LayoutInflater.from(this).inflate(R.layout.more_option_popup, null)
+        view.sortByName.setOnClickListener { sortByName() }
+        view.sortByStars.setOnClickListener { sortByStar() }
+        popupMenu.contentView = view
+        return popupMenu
+    }
+
+    private fun sortByName() {
+        popupMenu.dismiss()
+        gitRepositoryViewModel.sortByName()
+    }
+
+    private fun sortByStar() {
+        gitRepositoryViewModel.sortByStars()
+        popupMenu.dismiss()
     }
 
     private fun initObservers() {

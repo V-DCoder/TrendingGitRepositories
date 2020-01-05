@@ -32,6 +32,7 @@
             android:layout_marginLeft="16dp"
             android:text="@string/app_name"
             android:textSize="12sp"
+            app:fontFamily="@font/roboto_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,6 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="@string/app_name"
+            android:textColor="@color/textBlack"
+            android:textSize="15sp"
+            app:fontFamily="@font/roboto_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/author"
             app:layout_constraintTop_toBottomOf="@id/author"
@@ -60,7 +64,7 @@
             tools:text="some long description about the working of the application and some more details about compilation  " />
 
         <LinearLayout
-
+            android:id="@+id/detailsLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -119,4 +123,5 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>
