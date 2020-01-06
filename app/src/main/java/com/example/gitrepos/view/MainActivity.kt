@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             popupMenu.dismiss()
         } else {
             popupMenu.showAsDropDown(moreOptions)
+            popupMenu.update(moreOptions, 0, 0, LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
         }
     }
 
